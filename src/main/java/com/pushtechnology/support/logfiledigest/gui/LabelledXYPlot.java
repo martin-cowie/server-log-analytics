@@ -1,8 +1,9 @@
 package com.pushtechnology.support.logfiledigest.gui;
 
+import static com.pushtechnology.support.logfiledigest.gui.XYPlotUtils.enableXYPoints;
+
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.font.FontRenderContext;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -23,31 +24,29 @@ public class LabelledXYPlot extends XYPlot {
 
     private int y;
 
-    public LabelledXYPlot(XYDataset dataset,ValueAxis domainAxis,ValueAxis rangeAxis,XYItemRenderer renderer, String label, int x, int y) {
+    /**
+     * Constructor.
+     */
+    public LabelledXYPlot(XYDataset dataset, ValueAxis domainAxis, ValueAxis rangeAxis, XYItemRenderer renderer, String label, int x, int y) {
         super(dataset, domainAxis, rangeAxis, renderer);
         this.label = label;
         this.x = x;
         this.y = y;
+
+        enableXYPoints(this, true);
     }
+
     @Override
-    public void draw(Graphics2D g2,Rectangle2D area,Point2D anchor,PlotState parentState,PlotRenderingInfo info) {
+    public void draw(Graphics2D g2, Rectangle2D area, Point2D anchor, PlotState parentState, PlotRenderingInfo info) {
         super.draw(g2, area, anchor, parentState, info);
 
-        Rectangle2D myArea = info.getDataArea();
+        final Rectangle2D myArea = info.getDataArea();
 
         final FontMetrics metrics = g2.getFontMetrics();
         final int height = metrics.getHeight();
         g2.drawString(label,
             (int)myArea.getX() + x,
             (int)myArea.getY() + y + height);
-
-//        final FontRenderContext frc = new FontRenderContext(null, true, true);
-//        final Rectangle2D bounds = g2.getFont().getStringBounds(label, frc);
-//        g2.drawRect(
-//            (int)(bounds.getX() + myArea.getX()),
-//            (int)(bounds.getY() + myArea.getY() + height),
-//            (int)bounds.getWidth(),
-//            (int)bounds.getHeight());
     }
 
 }

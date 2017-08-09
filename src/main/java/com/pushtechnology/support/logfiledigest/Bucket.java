@@ -17,7 +17,7 @@ public final class Bucket {
     final Map<String, Integer> bucketData = new TreeMap<>();
 
     public Bucket(Date startDate,int durationInSeconds) {
-        this.startDate = startDate;
+        this.startDate = new Date(startDate.getTime());
         this.durationInSeconds = durationInSeconds;
     }
 
@@ -40,7 +40,7 @@ public final class Bucket {
 
     public static List<String> sumDesignations(Iterable<Bucket> buckets) {
         final Set<String> result = new TreeSet<>();
-        for(Bucket bucket : buckets) {
+        for (Bucket bucket : buckets) {
             result.addAll(bucket.getData().keySet());
         }
 

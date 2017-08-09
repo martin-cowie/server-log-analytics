@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
@@ -13,17 +14,18 @@ import org.jfree.data.xy.XYDataset;
 
 final class PlotInfo implements Comparable<PlotInfo> {
     private final String name;
-    private boolean visible = true;
     private final XYDataset dataset;
     private final int max;
     private final XYPlot plot;
 
     private static PlotInfo build(XYDataset dataset, XYItemRenderer renderer) {
-
         final String name = dataset.getSeriesKey(0).toString();
-        final XYPlot plot = new LabelledXYPlot(dataset, null, new NumberAxis(null), renderer, name, 10, 5);
+        final DateAxis domainAxis = new DateAxis(null);
+        domainAxis.setAutoRange(true);
 
-        return new PlotInfo(name, true, dataset, plot);
+        final XYPlot plot = new LabelledXYPlot(dataset, domainAxis, new NumberAxis(null), renderer, name, 10, 5);
+
+        return new PlotInfo(name, dataset, plot);
     }
 
     public static List<PlotInfo> buildFrom(List<XYDataset> xyDatasets, XYItemRenderer renderer) {
@@ -36,9 +38,8 @@ final class PlotInfo implements Comparable<PlotInfo> {
         return result;
     }
 
-    private PlotInfo(String name, boolean visible, XYDataset dataset, XYPlot plot) {
+    private PlotInfo(String name, XYDataset dataset, XYPlot plot) {
         this.name = name;
-        this.visible = visible;
         this.dataset = dataset;
         this.max = getMax(dataset);
         this.plot = plot;
@@ -62,16 +63,6 @@ final class PlotInfo implements Comparable<PlotInfo> {
         return name;
     }
 
-    /**
-     * @return visible
-     */
-    boolean isVisible() {
-        return visible;
-    }
-
-    void setVisible(boolean visible) {
-        this.visible = visible;
-    }
 
     /**
      * @return the dataset
@@ -84,6 +75,23 @@ final class PlotInfo implements Comparable<PlotInfo> {
     public int compareTo(PlotInfo other) {
         Objects.nonNull(other);
         return other.max - this.max;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof PlotInfo)) {
+            return false;
+        }
+        final PlotInfo other = (PlotInfo)obj;
+        return this.name.equals(other.name) &&
+            this.dataset.equals(other.dataset) &&
+            this.plot.equals(other.plot) &&
+            this.max == other.max;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, dataset, plot, max);
     }
 
     /**
@@ -103,5 +111,7 @@ final class PlotInfo implements Comparable<PlotInfo> {
     XYPlot getPlot() {
         return plot;
     }
+
+
 
 }
