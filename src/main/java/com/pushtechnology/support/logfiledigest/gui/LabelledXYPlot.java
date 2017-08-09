@@ -40,13 +40,15 @@ public class LabelledXYPlot extends XYPlot {
     public void draw(Graphics2D g2, Rectangle2D area, Point2D anchor, PlotState parentState, PlotRenderingInfo info) {
         super.draw(g2, area, anchor, parentState, info);
 
-        final Rectangle2D myArea = info.getDataArea();
+        if (info != null) { //TODO: info is null when this is called via createBufferedImage as part of DnD
+            final Rectangle2D myArea = info.getDataArea();
 
-        final FontMetrics metrics = g2.getFontMetrics();
-        final int height = metrics.getHeight();
-        g2.drawString(label,
-            (int)myArea.getX() + x,
-            (int)myArea.getY() + y + height);
+            final FontMetrics metrics = g2.getFontMetrics();
+            final int height = metrics.getHeight();
+            g2.drawString(label,
+                (int)myArea.getX() + x,
+                (int)myArea.getY() + y + height);
+        }
     }
 
 }

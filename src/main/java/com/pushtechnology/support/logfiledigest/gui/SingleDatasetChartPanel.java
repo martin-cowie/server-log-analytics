@@ -1,5 +1,6 @@
 package com.pushtechnology.support.logfiledigest.gui;
 
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -10,7 +11,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYDataset;
 
 /**
- * Encapsulation of a single XCDataset, a ChartPanel that shows it, and drag gesture handling.
+ * Encapsulation of a single XYDataset, a ChartPanel that shows it, and drag gesture handling.
  */
 public class SingleDatasetChartPanel extends ChartPanel {
 
@@ -19,7 +20,7 @@ public class SingleDatasetChartPanel extends ChartPanel {
     private final XYDataset dataset;
     private final String dataSetName;
 
-    SingleDatasetChartPanel(JFreeChart chart,XYDataset dataset, String dataSetName) {
+    SingleDatasetChartPanel(JFreeChart chart, XYDataset dataset, String dataSetName) {
         super(chart);
         this.dataset = dataset;
         this.dataSetName = dataSetName;
@@ -44,8 +45,10 @@ public class SingleDatasetChartPanel extends ChartPanel {
                 if ((evt.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) != 0) {
 
                     //FIXME: make this work
-//                    final Image image = chartPanel.createImage(300, 200);
-//                    th.setDragImage(image);
+                    final Image image = SingleDatasetChartPanel.this.getChart().createBufferedImage(300, 200);
+                    System.err.println("drag image: " + image);
+
+                    th.setDragImage(image);
                     th.exportAsDrag(SingleDatasetChartPanel.this, evt, TransferHandler.COPY);
                     System.err.println("exportAsDrag");
                 }
