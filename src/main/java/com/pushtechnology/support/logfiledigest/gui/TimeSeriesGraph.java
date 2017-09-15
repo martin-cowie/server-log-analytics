@@ -1,5 +1,6 @@
 package com.pushtechnology.support.logfiledigest.gui;
 
+import static java.awt.Toolkit.getDefaultToolkit;
 import static org.jfree.chart.JFreeChart.DEFAULT_TITLE_FONT;
 import static org.jfree.ui.RefineryUtilities.centerFrameOnScreen;
 
@@ -60,7 +61,8 @@ public class TimeSeriesGraph {
 
         final ColorProvider provider = new ColorProvider();
         final ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(500, 400)); //TODO: 4/5th the screen size
+
+        chartPanel.setPreferredSize(scale(getDefaultToolkit().getScreenSize(), 0.8));
         final DropTarget dropTarget = new DropTarget(chartPanel, new DropTargetListener() {
 
             @Override
@@ -123,5 +125,11 @@ public class TimeSeriesGraph {
         centerFrameOnScreen(frame);
 
         return new TimeSeriesGraph(frame, dataSet, rootPlot);
+    }
+
+    private static Dimension scale(Dimension dim, double d) {
+        return new Dimension(
+            (int)(dim.getWidth() * d),
+            (int)(dim.getHeight() *d));
     }
 }
