@@ -27,6 +27,7 @@ import org.jfree.data.time.FixedMillisecond;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
+import org.jfree.data.general.SeriesException;
 
 import com.pushtechnology.support.logfiledigest.LogfileDigester;
 
@@ -57,9 +58,14 @@ public class Main {
                     serieses.put(column, series = new TimeSeries(column));
                 }
 
-                series.add(
-                    new FixedMillisecond(date),
-                    parseInt(record.get(column)));
+                try {
+                    series.add(
+                        new FixedMillisecond(date),
+                        parseInt(record.get(column)));
+                    }
+                catch(SeriesException ex) {
+                    System.err.println(ex);
+                }
             }
         }
 

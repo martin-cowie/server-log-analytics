@@ -1,5 +1,7 @@
 package com.pushtechnology.support.logfiledigest.gui;
 
+import java.awt.Color;
+
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
@@ -15,6 +17,9 @@ public final class XYPlotUtils {
         if(renderer instanceof XYLineAndShapeRenderer) {
             final XYLineAndShapeRenderer lineAndShapeRenderer = (XYLineAndShapeRenderer)renderer;
             lineAndShapeRenderer.setBaseShapesVisible(value);
+
+            lineAndShapeRenderer.setBaseFillPaint(Color.lightGray);
+            lineAndShapeRenderer.setSeriesFillPaint(0, Color.yellow);
 
             //TODO: lighter colour for the shape
         }
