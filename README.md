@@ -10,7 +10,7 @@ Visualise frequency of log markers from a Diffusion server log as line chart.
 ## Quick start
 
 ```
-git clone https://treacleminer@bitbucket.org/pushtechnology/server-log-analytics.git
+git clone https://github.com/martin-cowie/server-log-analytics.git
 mvn clean install
 mvn exec:java
 ```
