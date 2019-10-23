@@ -109,9 +109,8 @@ public class Main {
             chooser.setApproveButtonText("Consume");
 
             if (JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(null)) {
-                // workingDirectory = chooser.getCurrentDirectory();
-                process(asList(chooser.getSelectedFiles()));
                 PREFS.put(LOGS_DIR, chooser.getCurrentDirectory().toString());
+                process(asList(chooser.getSelectedFiles()));
             }
         }
 
